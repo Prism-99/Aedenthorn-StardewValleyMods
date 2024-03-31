@@ -128,7 +128,8 @@ namespace UndergroundSecrets
         {
             string[] parts = action.Split('_').Skip(1).ToArray();
             monitor.Log($"Pressed floor number {parts[0]} (center: {parts[1]},{parts[2]}) at {pos} {shaft.Name}");
-            shaft.playSound("Ship", SoundContext.Default);
+ 
+            shaft.playSound("Ship");
 
             int idx = int.Parse(parts[0]);
             int cx = int.Parse(parts[1]);
@@ -184,7 +185,7 @@ namespace UndergroundSecrets
             }
             if (lit == 4)
             {
-                shaft.playSound("Duggy", SoundContext.Default);
+                shaft.playSound("Duggy");
 
                 for (int i = 0; i < 4; i++)
                     shaft.removeTileProperty((int)(spot.X + corners[i].X), (int)(spot.Y + corners[i].Y), "Back", "TouchAction");

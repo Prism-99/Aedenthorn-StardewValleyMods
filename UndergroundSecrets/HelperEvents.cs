@@ -32,7 +32,7 @@ namespace UndergroundSecrets
         {
             if(Game1.player.currentLocation is MineShaft)
             {
-                Vector2 loc = Game1.player.getTileLocation();
+                Vector2 loc = Game1.player.position.Value;
                 if (lastLoc != loc)
                 {
                     MineShaft shaft = Game1.player.currentLocation as MineShaft;
@@ -50,8 +50,8 @@ namespace UndergroundSecrets
                             if (Game1.random.NextDouble() < chance)
                             {
                                 monitor.Log($"Disarmed trap");
-                                Game1.player.currentLocation.playSoundAt("openBox", tile);
-                                Game1.player.currentLocation.playSoundAt("Cowboy_monsterDie", tile);
+                                //Game1.player.currentLocation.playSoundAt("openBox", tile);
+                                //Game1.player.currentLocation.playSoundAt("Cowboy_monsterDie", tile);
                                 shaft.removeTileProperty((int)tile.X, (int)tile.Y, "Back", "TouchAction");
                                 if (config.ShowTrapNotifications)
                                     Game1.addHUDMessage(new HUDMessage(helper.Translation.Get("disarmed-trap"), 1));

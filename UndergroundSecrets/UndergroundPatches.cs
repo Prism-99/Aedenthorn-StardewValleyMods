@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewModdingAPI;
@@ -134,7 +134,7 @@ namespace UndergroundSecrets
             Tile tile = __instance.map.GetLayer("Buildings").PickTile(new Location(tileLocation.X * 64, tileLocation.Y * 64), viewport.Size);
             if (tile != null && who.IsLocalPlayer)
             {
-                tile.Properties.TryGetValue("Action", out PropertyValue property);
+                tile.Properties.TryGetValue("Action", out PropertyValue? property);
                 if (property != null)
                 {
                     string action = property.ToString();

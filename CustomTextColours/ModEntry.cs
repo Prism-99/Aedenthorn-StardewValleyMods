@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
@@ -26,7 +26,7 @@ namespace CustomTextColours
 
             Helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
 
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony =new Harmony(this.ModManifest.UniqueID);
 
             harmony.Patch(
                 original: AccessTools.Method(typeof(SpriteText), nameof(SpriteText.drawString)),

@@ -71,15 +71,15 @@ namespace UndergroundSecrets
                     LightningTrap(shaft, position * Game1.tileSize);
                     break;
             }
-            if(remove)
+            if (remove)
                 shaft.removeTileProperty((int)position.X, (int)position.Y, "Back", "TouchAction");
-            if(config.ShowTrapNotifications)
+            if (config.ShowTrapNotifications)
                 Game1.addHUDMessage(new HUDMessage(helper.Translation.Get("triggered-trap"), 2));
         }
 
         public static void FireballTrap(MineShaft shaft, Vector2 position)
         {
-            shaft.playSound("furnace", SoundContext.Default);
+            shaft.playSound("furnace");
 
             foreach (Vector2 v in Utils.getCenteredSpots(position))
             {
@@ -87,27 +87,28 @@ namespace UndergroundSecrets
                 {
                     float x = position.X - v.X;
                     float y = position.Y - v.Y;
-                    BasicProjectile projectile = new BasicProjectile((int)Math.Ceiling(Math.Sqrt(shaft.mineLevel * config.TrapDamageMult)), 10, 0, 1, 0.5f, x, y, v * Game1.tileSize, "", "", false, false, shaft, Game1.player, false, null);
+                    BasicProjectile projectile = new BasicProjectile((int)Math.Ceiling(Math.Sqrt(shaft.mineLevel * config.TrapDamageMult)), 10, 0, 1, 0.5f, x, y, v * Game1.tileSize, "", "", null, false, false, shaft, Game1.player, null, null);
+                    //BasicProjectile projectile = new BasicProjectile((int)Math.Ceiling(Math.Sqrt(shaft.mineLevel * config.TrapDamageMult)), 10, 0, 1, 0.5f, x, y, v * Game1.tileSize, "", "", false, false, shaft, Game1.player, false, null);
                     projectile.ignoreTravelGracePeriod.Value = true;
                     projectile.maxTravelDistance.Value = 100;
                     shaft.projectiles.Add(projectile);
                 }
-                catch(Exception ex) 
-                { 
-                    monitor.Log($"error creating fire: {ex}"); 
+                catch (Exception ex)
+                {
+                    monitor.Log($"error creating fire: {ex}");
                 }
             }
 
         }
         public static void ExplosionTrap(MineShaft shaft, Vector2 position)
         {
-            shaft.playSound("explosion", SoundContext.Default);
+            shaft.playSound("explosion");
 
-            shaft.explode(position, Game1.random.Next(2,8), Game1.player);
+            shaft.explode(position, Game1.random.Next(2, 8), Game1.player);
         }
         public static void SlimeTrap(MineShaft shaft, Vector2 position)
         {
-            shaft.playSound("slime", SoundContext.Default);
+            shaft.playSound("slime");
             foreach (Vector2 v in Utils.getCenteredSpots(position, true))
             {
                 try
@@ -128,7 +129,7 @@ namespace UndergroundSecrets
         private static void LightningTrap(MineShaft shaft, Vector2 position)
         {
 
-            Microsoft.Xna.Framework.Rectangle lightningSourceRect = new Rectangle(0, 0, 16, 16);
+            Rectangle lightningSourceRect = new Rectangle(0, 0, 16, 16);
             float markerScale = 8f;
             Vector2 drawPosition = position + new Vector2(-16 * markerScale / 2 + 32f, -16 * markerScale / 2 + 32f);
 

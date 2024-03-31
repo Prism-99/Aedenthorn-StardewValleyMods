@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "UndergroundSecrets": {
+      "commandName": "Project"
+    },
+    "SDV 1.6": {
+      "commandName": "Executable",
+      "executablePath": "T:\\StardewModdingAPI.exe",
+      "commandLineArgs": "--mods-path \"Mods-min\""
+    }
+  }
+}

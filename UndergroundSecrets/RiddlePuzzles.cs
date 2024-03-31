@@ -84,11 +84,11 @@ namespace UndergroundSecrets
                 
                 DialogueBox db = menu as DialogueBox;
                 int resp = db.selectedResponse;
-                List<Response> resps = db.responses;
+                List<Response> resps = db.responses.ToList();
 
                 if (resp < 0 || resps == null || resp >= resps.Count || resps[resp] == null)
                     return;
-                Game1.player.currentLocation.lastQuestionKey = "";
+                Game1.player.currentLocation.lastQuestionKey = null;
                 helper.Events.Input.ButtonPressed -= Input_ButtonPressed;
 
                 AnswerResult(resps[resp].responseKey);
@@ -115,11 +115,11 @@ namespace UndergroundSecrets
                 case "S":
                     Game1.player.currentLocation.removeTile(x, y - 1, "Front");
                     Game1.player.currentLocation.removeTile(x, y, "Buildings");
-                    CollapsingFloors.collapseFloor(Game1.player.currentLocation as MineShaft, Game1.player.getTileLocation());
+                    CollapsingFloors.collapseFloor(Game1.player.currentLocation as MineShaft, Game1.player.Tile);
                     return;
                 default:
                     Game1.player.currentLocation.setMapTileIndex(x, y - 1, litEyes + 16, "Front");
-                    Traps.TriggerRandomTrap(Game1.player.currentLocation as MineShaft, Game1.player.getTileLocation(), false);
+                    Traps.TriggerRandomTrap(Game1.player.currentLocation as MineShaft, Game1.player.Tile, false);
                     return;
             }
         }

@@ -34,7 +34,7 @@ namespace UndergroundSecrets
 
             for (int i = num - 1; i >= 0; i--)
             {
-                shaft.terrainFeatures.Add(rSpots[i], new Tree(7, Game1.random.Next(1,6)));
+                shaft.terrainFeatures.Add(rSpots[i], new Tree("7", Game1.random.Next(1,6)));
 
                 //shaft.setMapTileIndex((int)rSpots[i].X, (int)rSpots[i].Y,0,"Back");
                 //monitor.Log($"adding random trap at {(int)rSpots[i].X},{(int)rSpots[i].Y}");

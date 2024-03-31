@@ -38,7 +38,7 @@ namespace UndergroundSecrets
             List<Vector2> clearCenters = new List<Vector2>();
             List<Vector2> superClearCenters = new List<Vector2>();
 
-            Vector2 tileBeneathLadder = helper.Reflection.GetField<NetVector2>(shaft, "netTileBeneathLadder").GetValue();
+            Vector2 tileBeneathLadder = helper.Reflection.GetField<NetVector2>(shaft, "netTileBeneathLadder").GetValue().Value;
 
             monitor.Log($"tileBeneathLadder: {tileBeneathLadder}");
 
@@ -113,7 +113,7 @@ namespace UndergroundSecrets
             }
             if (ModEntry.treasureChestsExpandedApi == null)
             {
-                shaft.overlayObjects[spot] = new Chest(0, new List<Item>() { MineShaft.getTreasureRoomItem() }, spot, false, 0);
+                shaft.overlayObjects[spot] = new Chest( new List<Item>() { MineShaft.getTreasureRoomItem() }, spot, false, 0);
             }
             else
             {
@@ -133,31 +133,31 @@ namespace UndergroundSecrets
                 chestSpot.Y += 4f;
             int mineLevel = shaft.mineLevel;
             if (mineLevel == 10)
-                chestItem.Add(new Boots(506));
+                chestItem.Add(new Boots("506"));
             else if (mineLevel == 20)
-                chestItem.Add(new MeleeWeapon(11));
+                chestItem.Add(new MeleeWeapon("11"));
             else if (mineLevel == 40)
             {
-                Game1.player.completeQuest(17);
+                Game1.player.completeQuest("17");
                 chestItem.Add(new Slingshot());
             }
             else if (mineLevel == 50)
-                chestItem.Add(new Boots(509));
+                chestItem.Add(new Boots("509"));
             else if (mineLevel == 60)
-                chestItem.Add(new MeleeWeapon(21));
+                chestItem.Add(new MeleeWeapon("21"));
             else if (mineLevel == 70)
-                chestItem.Add(new Slingshot(33));
+                chestItem.Add(new Slingshot("33"));
             else if (mineLevel == 80)
-                chestItem.Add(new Boots(512));
+                chestItem.Add(new Boots("512"));
             else if (mineLevel == 90)
-                chestItem.Add(new MeleeWeapon(8));
+                chestItem.Add(new MeleeWeapon("8"));
             else if (mineLevel == 100)
-                chestItem.Add(new Object(434, 1, false, -1, 0));
+                chestItem.Add(new Object("434", 1, false, -1, 0));
             else if (mineLevel == 110)
-                chestItem.Add(new Boots(514));
+                chestItem.Add(new Boots("514"));
             else if (mineLevel == 120)
             {
-                Game1.player.completeQuest(18);
+                Game1.player.completeQuest("18");
                 Game1.getSteamAchievement("Achievement_TheBottom");
                 if (!Game1.player.hasSkullKey)
                 {
@@ -171,7 +171,7 @@ namespace UndergroundSecrets
             }
             if (chestItem.Count > 0 && !Game1.player.chestConsumedMineLevels.ContainsKey(shaft.mineLevel))
             {
-                shaft.overlayObjects[chestSpot] = new Chest(0, chestItem, chestSpot, false, 0)
+                shaft.overlayObjects[chestSpot] = new Chest( chestItem, chestSpot, false, 0)
                 {
                     Tint = tint
                 };

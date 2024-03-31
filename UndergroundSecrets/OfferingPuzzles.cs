@@ -114,7 +114,7 @@ namespace UndergroundSecrets
             shaft.setMapTileIndex((int)spot.X + 1, (int)spot.Y - 1, 244, "Front");
             shaft.removeTileProperty((int)spot.X - 1, (int)spot.Y + 1, "Buildings", "Action");
             shaft.removeTileProperty((int)spot.X + 1, (int)spot.Y + 1, "Buildings", "Action");
-            Traps.TriggerRandomTrap(shaft, new Vector2(who.getTileLocation().X, who.getTileLocation().Y), false);
+            Traps.TriggerRandomTrap(shaft, new Vector2(who.Tile.X, who.Tile.Y), false);
         }
 
         internal static void OfferObject(MineShaft shaft, string action, Location tileLocation, Farmer who)
@@ -141,7 +141,7 @@ namespace UndergroundSecrets
                 shaft.setMapTileIndex((int)spot.X + 1, (int)spot.Y + 1, OfferingPuzzles.offerIdx, "Buildings");
                 shaft.removeTileProperty((int)spot.X - 1, (int)spot.Y + 1, "Buildings", "Action");
                 shaft.removeTileProperty((int)spot.X + 1, (int)spot.Y + 1, "Buildings", "Action");
-                Traps.TriggerRandomTrap(shaft, new Vector2(who.getTileLocation().X, who.getTileLocation().Y), false);
+                Traps.TriggerRandomTrap(shaft, new Vector2(who.Tile.X, who.Tile.Y), false);
             }
         }
     }

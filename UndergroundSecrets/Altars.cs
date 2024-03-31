@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.GameData.Buffs;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -10,7 +11,7 @@ using System.Linq;
 using xTile.Dimensions;
 using xTile.Layers;
 using xTile.Tiles;
-using static StardewValley.Network.NetAudio;
+using StardewValley.Buffs;
 
 namespace UndergroundSecrets
 {
@@ -56,7 +57,7 @@ namespace UndergroundSecrets
             buildings.Tiles[(int)spot.X + 1, (int)spot.Y + 1] = new StaticTile(buildings, tilesheet, BlendMode.Alpha, tileIndex: 162 + type * 3);
 
             shaft.setTileProperty((int)spot.X, (int)spot.Y + 1, "Buildings", "Action", $"undergroundAltar_{type}_{spot.X}_{spot.Y + 1}");
-            
+
             foreach (Vector2 v in Utils.GetSurroundingTiles(spot, 4))
             {
                 superClearCenters.Remove(v);
@@ -89,30 +90,31 @@ namespace UndergroundSecrets
             {
                 if (type == 0)
                 {
-                    CollapsingFloors.collapseFloor(shaft, who.getTileLocation());
+                    CollapsingFloors.collapseFloor(shaft, who.Tile);
                     return;
                 }
                 else if (type == 1)
                 {
-                    Traps.TriggerRandomTrap(shaft, who.getTileLocation(), false);
+                    Traps.TriggerRandomTrap(shaft, who.Tile, false);
                     return;
                 }
             }
 
             string sound = "yoba";
-            if(type == 0)
+            if (type == 0)
             {
                 sound = "grunt";
             }
-            else if(type == 1)
+            else if (type == 1)
             {
                 sound = "debuffSpell";
             }
-            shaft.playSound(sound, SoundContext.Default);
+            shaft.playSound(sound);
 
             BuffsDisplay buffsDisplay = Game1.buffsDisplay;
             Buff buff2 = GetBuff(value, who, shaft, type);
-            buffsDisplay.addOtherBuff(buff2);
+            //buffsDisplay.AddDependency(buff2);
+            who.applyBuff(buff2);
         }
 
         private static Buff GetBuff(int value, Farmer who, MineShaft shaft, int type)
@@ -120,14 +122,40 @@ namespace UndergroundSecrets
             int buffAmount = (int)(Math.Sqrt(value / 10f + who.LuckLevel + who.DailyLuck) * config.AltarBuffMult);
             int which = Game1.random.Next(10);
             int[] buffs = new int[10];
+            //upgraded buff selection
             for (int i = 0; i < 10; i++)
             {
                 buffs[i] = which == i ? buffAmount : 0;
 
             }
-            int buffDuration = value + shaft.mineLevel;
-            Buff buff = new Buff(buffs[0], buffs[1], buffs[2], buffs[3], buffs[4], buffs[5], buffs[6], 0, 0, buffs[7], buffs[8], buffs[9], buffDuration, $"Altar{type}", helper.Translation.Get($"altar-type-{type}"));
-            buff.which = 424200 + which;
+            // 1 chance in 100 of an all day Buff
+            int allDayBuff = Game1.random.Next(100);
+            int buffDuration = allDayBuff == 42 ? Buff.ENDLESS : (value + shaft.mineLevel) / 10 * 7000;
+            //Buff buff = new Buff(buffs[0], buffs[1], buffs[2], buffs[3], buffs[4], buffs[5], buffs[6], 0, 0, buffs[7], buffs[8], buffs[9], buffDuration, $"Altar{type}", helper.Translation.Get($"altar-type-{type}"));
+            Buff buff = new Buff(
+
+                 id: $"Altar{type}",
+                 duration: buffDuration,
+                 source: $"Altar{type}",
+                 displaySource: helper.Translation.Get($"altar-type-{type}"),
+                 effects: new BuffEffects
+                 (
+                     new BuffAttributesData
+                     {
+                         FarmingLevel = buffs[0],
+                         FishingLevel = buffs[1],
+                         MiningLevel = buffs[2],
+                         LuckLevel = buffs[3],
+                         ForagingLevel = buffs[4],
+                         MaxStamina = buffs[5],
+                         MagneticRadius = buffs[6],
+                         Speed = buffs[7],
+                         Defense = buffs[8],
+                         Attack = buffs[9]
+                     }
+                 )
+                 );
+            //buff.which = 424200 + which;
             monitor.Log($"buff: {which}, amount: {buffAmount}, duration: {buffDuration}");
             return buff;
         }

@@ -116,26 +116,26 @@ namespace UndergroundSecrets
 
             Vector2[] spots = Utils.getCenteredSpots(new Vector2(cx, cy), true);
 
-            bool correct = CheckTileOrder(shaft, spots, idx,cx,cy);
+            bool correct = CheckTileOrder(shaft, spots, idx, cx, cy);
 
             Layer layer = shaft.map.GetLayer("Back");
             TileSheet tilesheet = shaft.map.GetTileSheet(ModEntry.tileSheetId);
             if (correct)
             {
                 monitor.Log($"correct order, deactivating tile {idx}");
-                shaft.playSound("Ship", SoundContext.Default);
-                layer.Tiles[(int)playerStandingPosition.X, (int)playerStandingPosition.Y] = new StaticTile(layer, tilesheet, BlendMode.Alpha, tileIndex: 16*row + idx + 8);
+                shaft.playSound("Ship");
+                layer.Tiles[(int)playerStandingPosition.X, (int)playerStandingPosition.Y] = new StaticTile(layer, tilesheet, BlendMode.Alpha, tileIndex: 16 * row + idx + 8);
                 shaft.removeTileProperty(cx, cy, "Back", "TouchAction");
             }
             else
             {
-                shaft.playSound("Duggy", SoundContext.Default);
+                shaft.playSound("Duggy");
                 monitor.Log($"wrong order, deactivating puzzle");
                 foreach (Vector2 spot in spots)
                 {
                     if (layer.Tiles[(int)spot.X, (int)spot.Y].TileIndex % 16 >= 8)
                         continue;
-                    
+
                     layer.Tiles[(int)spot.X, (int)spot.Y] = new StaticTile(layer, tilesheet, BlendMode.Alpha, tileIndex: layer.Tiles[(int)spot.X, (int)spot.Y].TileIndex + 8);
                     shaft.removeTileProperty((int)spot.X, (int)spot.Y, "Back", "TouchAction");
                 }
@@ -158,7 +158,7 @@ namespace UndergroundSecrets
                     //monitor.Log($"remaining tile {i}");
 
                     remain = true;
-                    if(i < idx)
+                    if (i < idx)
                     {
                         return false;
                     }
