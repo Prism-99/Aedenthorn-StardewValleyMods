@@ -15,9 +15,10 @@ namespace FieldHarvest
         {
             if (!harvestingField || Config.AutoCollect)
                 return;
-            __instance.harvestMethod.Value = 1;
+           
+            //__instance.harvestMethod.Value = 1;
         }
-        private static bool HoeDirt_performUseAction_Prefix(HoeDirt __instance, Vector2 tileLocation, GameLocation location, ref bool __result)
+        private static bool HoeDirt_performUseAction_Prefix(HoeDirt __instance, Vector2 tileLocation, ref bool __result)
         {
             if (!Config.EnableMod || !SHelper.Input.IsDown(Config.ModButton) || (Config.OnlySameSeed && __instance.crop == null))
                 return true;
@@ -27,7 +28,7 @@ namespace FieldHarvest
 
             List<Vector2> hoedirts = new List<Vector2>();
             hoedirts.Add(tileLocation);
-            GetHoeDirt(tileLocation, hoedirts, location);
+            GetHoeDirt(tileLocation, hoedirts, __instance.Location);
             SMonitor.Log($"Got {hoedirts.Count} hoe dirt tiles");
             //hoedirts.Sort(delegate (Vector2 p1, Vector2 p2) { return Vector2.Distance(tileLocation, p1).CompareTo(Vector2.Distance(tileLocation, p2)); });
 
@@ -35,18 +36,18 @@ namespace FieldHarvest
             int count = 0;
             foreach (var p in hoedirts)
             {
-                HoeDirt dirt = location.terrainFeatures[p] as HoeDirt;
+                HoeDirt dirt = __instance.Location.terrainFeatures[p] as HoeDirt;
                 if (dirt.crop == null || (sameCrop != null && Config.OnlySameSeed && dirt.crop.netSeedIndex.Value != sameCrop.netSeedIndex.Value))
                     continue;
                 harvestingField = true;
                 if (dirt.crop.harvest((int)p.X, (int)p.Y, dirt))
                 {
-                    if (location != null && location is IslandLocation && Game1.random.NextDouble() < 0.05)
+                    if (__instance.Location != null && __instance.Location is IslandLocation && Game1.random.NextDouble() < 0.05)
                     {
-                        Game1.player.team.RequestLimitedNutDrops("IslandFarming", location, (int)tileLocation.X * 64, (int)tileLocation.Y * 64, 5, 1);
+                        Game1.player.team.RequestLimitedNutDrops("IslandFarming", __instance.Location, (int)tileLocation.X * 64, (int)tileLocation.Y * 64, 5, 1);
                     }
-                    (location.terrainFeatures[p] as HoeDirt).crop = null;
-                    (location.terrainFeatures[p] as HoeDirt).nearWaterForPaddy.Value = -1;
+                    (__instance.Location.terrainFeatures[p] as HoeDirt).crop = null;
+                    (__instance.Location.terrainFeatures[p] as HoeDirt).nearWaterForPaddy.Value = -1;
 
                     count++;
                 }
