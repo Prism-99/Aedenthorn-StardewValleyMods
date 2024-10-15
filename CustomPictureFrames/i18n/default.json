@@ -1,0 +1,8 @@
+{
+  "enabled": "Mod Enabled?",
+  "startframing": "Start Framing Key",
+  "switchframe": "Switch Frame Key",
+  "takepicture": "Take Picture Key",
+  "switchpicture": "Switch Picture Key",
+  "deletepicture": "Delete Picture Key"
+}

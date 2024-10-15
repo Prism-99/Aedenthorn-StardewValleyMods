@@ -4,15 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Objects;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace CustomPictureFrames
 {
     /// <summary>The mod entry point.</summary>
-    public partial class ModEntry : Mod, IAssetLoader
+    public partial class ModEntry : Mod
     {
 
         public static IMonitor SMonitor;
@@ -39,11 +35,13 @@ namespace CustomPictureFrames
             SMonitor = Monitor;
             SHelper = helper;
 
+            i18n.Init(helper.Translation);
+
             helper.Events.Input.ButtonPressed += Input_ButtonPressed;
             helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
             helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
             helper.Events.Display.RenderedWorld += Display_RenderedWorld;
-
+            helper.Events.Content.AssetRequested += Content_AssetRequested;
             harmony = new Harmony(ModManifest.UniqueID);
             harmony.Patch(
                original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.draw), new Type[] {typeof(SpriteBatch)}),
@@ -51,8 +49,15 @@ namespace CustomPictureFrames
             );
         }
 
+        private void Content_AssetRequested(object? sender, StardewModdingAPI.Events.AssetRequestedEventArgs e)
+        {
+            if (Config.EnableMod && e.NameWithoutLocale.Name== frameworkPath)
+            {
+                e.LoadFrom(() => new Dictionary<string, string>(),StardewModdingAPI.Events.AssetLoadPriority.Low);
+            }
+        }
 
-        private void Display_RenderedWorld(object sender, StardewModdingAPI.Events.RenderedWorldEventArgs e)
+        private void Display_RenderedWorld(object? sender, StardewModdingAPI.Events.RenderedWorldEventArgs e)
         {
 
             if (Config.EnableMod && framing && frameList.Count > 0)
@@ -70,7 +75,7 @@ namespace CustomPictureFrames
         {
             return new CustomPictureFramesApi();
         }
-        private void GameLoop_GameLaunched(object sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
+        private void GameLoop_GameLaunched(object? sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
         {
             if (Helper.ModRegistry.IsLoaded("aedenthorn.PaintingDisplay"))
             { 
@@ -94,51 +99,51 @@ namespace CustomPictureFrames
 
             configMenu.AddBoolOption(
                 mod: ModManifest,
-                name: () => "Mod Enabled?",
+                name: () => i18n.Enabled(),
                 getValue: () => Config.EnableMod,
                 setValue: value => Config.EnableMod = value
             );
             configMenu.AddKeybind(
                 mod: ModManifest,
-                name: () => "Start Framing Key",
+                name: () => i18n.StartFraming(),
                 getValue: () => Config.StartFramingKey,
                 setValue: value => Config.StartFramingKey = value
             );
             configMenu.AddKeybind(
                 mod: ModManifest,
-                name: () => "Switch Frame Key",
+                name: () => i18n.SwitchFrame(),
                 getValue: () => Config.SwitchFrameKey,
                 setValue: value => Config.SwitchFrameKey = value
             );
             configMenu.AddKeybind(
                 mod: ModManifest,
-                name: () => "Take Picture Key",
+                name: () => i18n.TakePicture(),
                 getValue: () => Config.TakePictureKey,
                 setValue: value => Config.TakePictureKey = value
             );
             configMenu.AddKeybind(
                 mod: ModManifest,
-                name: () => "Switch Picture Key",
+                name: () => i18n.SwitchPicture(),
                 getValue: () => Config.SwitchPictureKey,
                 setValue: value => Config.SwitchPictureKey = value
             );
             configMenu.AddKeybind(
                 mod: ModManifest,
-                name: () => "Delete Picture Key",
+                name: () => i18n.DeletePicture(),
                 getValue: () => Config.DeletePictureKey,
                 setValue: value => Config.DeletePictureKey = value
             );
 
         }
 
-        private void GameLoop_SaveLoaded(object sender, StardewModdingAPI.Events.SaveLoadedEventArgs e)
+        private void GameLoop_SaveLoaded(object? sender, StardewModdingAPI.Events.SaveLoadedEventArgs e)
         {
             if (!Config.EnableMod)
                 return;
             frameList.Clear();
-            foreach (var kvp in Helper.Content.Load<Dictionary<string, string>>(frameworkPath, ContentSource.GameContent))
+            foreach (var kvp in Helper.GameContent.Load<Dictionary<string, string>>(frameworkPath))
             {
-                var tex = Helper.Content.Load<Texture2D>(kvp.Value, ContentSource.GameContent);
+                var tex = Helper.GameContent.Load<Texture2D>(kvp.Value);
                 tex.Name = Path.GetFileName(kvp.Key);
                 frameList.Add(new FrameData() { texture = tex, name = kvp.Key });
             }
@@ -167,7 +172,7 @@ namespace CustomPictureFrames
                 }
             }
         }
-        private void Input_ButtonPressed(object sender, StardewModdingAPI.Events.ButtonPressedEventArgs e)
+        private void Input_ButtonPressed(object? sender, StardewModdingAPI.Events.ButtonPressedEventArgs e)
         {
             if (!Config.EnableMod || !Context.IsWorldReady || frameList.Count == 0)
                 return;
@@ -376,22 +381,22 @@ namespace CustomPictureFrames
 
         /// <summary>Get whether this instance can load the initial version of the given asset.</summary>
         /// <param name="asset">Basic metadata about the asset being loaded.</param>
-        public bool CanLoad<T>(IAssetInfo asset)
-        {
-            if (!Config.EnableMod)
-                return false;
+        //public bool CanLoad<T>(IAssetInfo asset)
+        //{
+        //    if (!Config.EnableMod)
+        //        return false;
 
-            return asset.AssetNameEquals(frameworkPath);
-        }
+        //    return asset.AssetNameEquals(frameworkPath);
+        //}
 
         /// <summary>Load a matched asset.</summary>
         /// <param name="asset">Basic metadata about the asset being loaded.</param>
-        public T Load<T>(IAssetInfo asset)
-        {
-            Monitor.Log("Loading frame list");
+        //public T Load<T>(IAssetInfo asset)
+        //{
+        //    Monitor.Log("Loading frame list");
 
-            return (T)(object)new Dictionary<string, string>();
-        }
+        //    return (T)(object)new Dictionary<string, string>();
+        //}
     }
 
 }
