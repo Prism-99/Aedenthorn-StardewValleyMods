@@ -1,7 +1,9 @@
-﻿using HarmonyLib;
+﻿using GenericModConfigMenu;
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using RealNamesREDUX.i18n;
 using StardewValley.Network;
 using System;
 using System.Collections.Generic;
@@ -37,6 +39,7 @@ namespace RealNames
                 return;
 
             PMonitor = Monitor;
+            i18n.Init(helper.Translation);
 
             myRand = new Random();
 
@@ -55,6 +58,47 @@ namespace RealNames
                original: typeof(Dialogue).GetMethod(nameof(Dialogue.randomName), BindingFlags.Public | BindingFlags.Static),
                prefix: new HarmonyMethod(typeof(ModEntry), nameof(Dialogue_randomName_Prefix))
             );
+            helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched; ;
+        }       
+
+        private void GameLoop_GameLaunched(object? sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
+        {
+            var configMenu = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configMenu is null)
+                return;
+
+            // register mod
+            configMenu.Register(
+                mod: ModManifest,
+                reset: () => Config = new ModConfig(),
+                save: () => Helper.WriteConfig(Config)
+            );
+
+            configMenu.AddBoolOption(
+             mod: ModManifest,
+             name: () => i18n.Enabled(),
+             getValue: () => Config.Enabled,
+             setValue: value => Config.Enabled = value
+         );
+            configMenu.AddTextOption(base.ModManifest, () => Config.NeutralNameGender, delegate (string v)
+            {
+                Config.NeutralNameGender = v;
+            }, () => i18n.GenderNeutral(), () => i18n.GenderNeutralDesc(), ModConfig.NamingModes);
+
+            configMenu.AddTextOption(
+               mod: ModManifest,
+               name: () => i18n.LocaleString(),
+               tooltip: () => i18n.LocaleStringDesc(),
+               getValue: () => Config.LocaleString,
+               setValue: value => Config.LocaleString = value
+           );
+            configMenu.AddBoolOption(
+         mod: ModManifest,
+         name: () => i18n.AnimalNames(),
+         tooltip: () => i18n.AnimalNamesDesc(),
+         getValue: () => Config.RealNamesForAnimals,
+         setValue: value => Config.RealNamesForAnimals = value
+     );
         }
 
         private void ConvertNames()
@@ -97,12 +141,12 @@ namespace RealNames
                 maleNames = new string[0];
             }
 
-            if(Config.NeutralNameGender == "female")
+            if (Config.NeutralNameGender == "female")
             {
                 neuterNames = femaleNames;
 
             }
-            else if(Config.NeutralNameGender == "male")
+            else if (Config.NeutralNameGender == "male")
             {
                 neuterNames = maleNames;
 
@@ -134,13 +178,13 @@ namespace RealNames
 
         private static string GetRandomName(string gender)
         {
-            if(gender == "female")
+            if (gender == "female")
             {
                 if (femaleNames.Length == 0)
                     return "error";
                 return femaleNames[myRand.Next(femaleNames.Length)];
             }
-            else if(gender == "male")
+            else if (gender == "male")
             {
                 if (maleNames.Length == 0)
                     return "error";
@@ -157,7 +201,7 @@ namespace RealNames
         private static bool Dialogue_randomName_Prefix(ref string __result)
         {
             string gender = Config.NeutralNameGender;
-            if(Game1.activeClickableMenu is NamingMenu) 
+            if (Game1.activeClickableMenu is NamingMenu)
             {
                 string title = (string)typeof(NamingMenu).GetField("title", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Game1.activeClickableMenu as NamingMenu);
                 if (title == Game1.content.LoadString("Strings\\Events:BabyNamingTitle_Female"))
@@ -176,7 +220,7 @@ namespace RealNames
                 return true;
             }
             string name = GetRandomName(gender);
-            if(name == "" || name == "error")
+            if (name == "" || name == "error")
             {
                 PMonitor.Log("Error getting random name, reverting to vanilla method.", LogLevel.Warn);
                 return true;

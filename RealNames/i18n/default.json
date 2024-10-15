@@ -1,0 +1,9 @@
+{
+  "enabled": "Mod Enabled",
+  "neutralname": "Neutral Name Gender",
+  "neutralname.desc": "'male/female': use gendered names, 'male': use male names 'female': use female names",
+  "localestring": "LocaleString",
+  "localestring.desc": "Set the name language",
+  "realanimalnames": "Enable animal names",
+  "realanimalnames.desc":  "If not enabled, custom names will only be used for human babies"
+}
