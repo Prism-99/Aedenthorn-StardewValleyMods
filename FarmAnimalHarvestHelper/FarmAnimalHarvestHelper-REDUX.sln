@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmAnimalHarvestHelper-REDUX.1.6.9", "Stardew 1.6.9\FarmAnimalHarvestHelper-REDUX.1.6.9.csproj", "{7678957F-73E5-4672-A38A-A6A282BBCF7E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "commonCode", "commonCode\commonCode.shproj", "{AA9CBF8B-0B63-4D21-A2A0-BEA8BA291823}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarmAnimalHarvestHelper-REDUX.1.6.8", "Stardew 1.6.8\FarmAnimalHarvestHelper-REDUX.1.6.8.csproj", "{7DADABE5-C27B-44AC-836A-6490E2046FF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7678957F-73E5-4672-A38A-A6A282BBCF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7678957F-73E5-4672-A38A-A6A282BBCF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7678957F-73E5-4672-A38A-A6A282BBCF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7678957F-73E5-4672-A38A-A6A282BBCF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DADABE5-C27B-44AC-836A-6490E2046FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DADABE5-C27B-44AC-836A-6490E2046FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DADABE5-C27B-44AC-836A-6490E2046FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DADABE5-C27B-44AC-836A-6490E2046FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27BDE865-FA04-4B42-86E6-C98DC3020B14}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		commonCode\commonCode.projitems*{7678957f-73e5-4672-a38a-a6a282bbcf7e}*SharedItemsImports = 5
+		commonCode\commonCode.projitems*{7dadabe5-c27b-44ac-836a-6490e2046ff7}*SharedItemsImports = 5
+		commonCode\commonCode.projitems*{aa9cbf8b-0b63-4d21-a2a0-bea8ba291823}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

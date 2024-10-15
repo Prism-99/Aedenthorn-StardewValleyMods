@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "FarmAnimalHarvestHelper-REDUX": {
+      "commandName": "Project"
+    },
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "D:\\Steam\\steamapps\\common\\Stardew Valley 1.6.8\\StardewModdingAPI.exe",
+      "commandLineArgs": "--mods-path \"Mods-min\""
+    },
+    "Profile 2": {
+      "commandName": "Executable",
+      "executablePath": "D:\\Steam\\steamapps\\common\\Stardew Valley 1.6.8\\StardewModdingAPI.exe",
+      "commandLineArgs": "--mods-path \"Mods-Empty\""
+    }
+  }
+}

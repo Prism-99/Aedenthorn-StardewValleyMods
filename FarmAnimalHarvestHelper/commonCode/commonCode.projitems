@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>aa9cbf8b-0b63-4d21-a2a0-bea8ba291823</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>commonCode</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)i18n\i18n.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IGenericModConfigMenuApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\AnimalHousePatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\FarmAnimalPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\GameLocationPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MilkPailPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\ShearsPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\UtilityPatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SlotManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilitities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)i18n\default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

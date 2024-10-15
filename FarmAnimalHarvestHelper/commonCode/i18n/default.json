@@ -1,0 +1,14 @@
+﻿{
+  "mod.enabled": "Mod, Enabled?",
+  "max.wait": "Max Wait Hour",
+  "first.slot": "First Slot Tile",
+  "animal.fix": "Animal Fix Enabled?",
+  "animal.fix.tt": "Removes game requirement to have a vanilla Barn or Coop to purchase Cows or Chickens",
+  "animal.warp": "Animal Outdoor Warp",
+  "animal.warp.tt": "Warp the animal outside after tending",
+  "animal.indoor.warp": "Animal Indoor Warp",
+  "animal.indoor.warp.tt": "Warp the animal inside after tending",
+  "animal.exact": "Enable Exact Animal Mode?",
+  "animal.exact.tt": "Enable Animal Houses to be restricted to single animal types",
+  "animal.cycling": "Enable Animal Cycling"
+}
