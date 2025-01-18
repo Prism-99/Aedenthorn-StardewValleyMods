@@ -1,22 +1,10 @@
 ﻿{
   "Name": "Light Mod",
-  "Author": "aedenthorn",
-  "Version": "0.3.0",
+  "Author": "prism99.aedenthorn",
+  "Version": "0.4.0",
   "Description": "Light Mod.",
-  "UniqueID": "aedenthorn.LightMod",
-  "EntryDll": "LightMod.dll",
-  "MinimumApiVersion": "3.15.0",
-  "ModUpdater": {
-    "Repository": "StardewValleyMods",
-    "User": "aedenthorn",
-    "Directory": "_releases",
-    "ModFolder": "LightMod"
-  },
-  "Dependencies": [
-    {
-      "UniqueID": "Platonymous.ModUpdater",
-      "IsRequired": false
-    }
-  ],
+  "UniqueID": "prism99.aedenthorn.LightMod",
+  "EntryDll": "LightModREDUX.dll",
+  "MinimumApiVersion": "4.0.0",
   "UpdateKeys": [ "Nexus:14247" ]
 }

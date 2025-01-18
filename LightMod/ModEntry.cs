@@ -1,20 +1,8 @@
 ﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
-using StardewValley.Locations;
-using StardewValley.Menus;
-using StardewValley.Objects;
-using StardewValley.TerrainFeatures;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Security.Permissions;
 using Object = StardewValley.Object;
 
 namespace LightMod
@@ -61,9 +49,13 @@ namespace LightMod
             harmony.PatchAll();
 
             harmony.Patch(
-                original: AccessTools.Method(Game1.game1.GetType(), "DrawImpl"),
-                transpiler: new HarmonyMethod(typeof(ModEntry), nameof(ModEntry.SGame_DrawImpl_Transpiler))
+                original: AccessTools.Method(Game1.game1.GetType(), "_draw"),
+                transpiler: new HarmonyMethod(typeof(ModEntry), nameof(SGame_DrawImpl_Transpiler))
             );
+         //   harmony.Patch(
+         //original: AccessTools.Method(Game1.game1.GetType(), "DrawImpl"),
+         //transpiler: new HarmonyMethod(typeof(ModEntry), nameof(SGame_DrawImpl_Transpiler))
+     //);
 
         }
 
@@ -89,7 +81,7 @@ namespace LightMod
                 Point tile = Utility.Vector2ToPoint(Game1.currentCursorTile * 64);
                 foreach (var f in Game1.currentLocation.furniture)
                 {
-                    if (f.getBoundingBox(f.TileLocation).Contains(tile))
+                    if (f.boundingBox.Value.Contains(tile))
                     {
                         ToggleLight(f);
                         return;
@@ -126,7 +118,7 @@ namespace LightMod
             }
             foreach (var f in Game1.currentLocation.furniture)
             {
-                if (f.getBoundingBox(f.TileLocation).Contains(tile))
+                if (f.boundingBox.Value.Contains(tile))
                 {
                     if (Helper.Input.IsDown(Config.RadiusModButton))
                     {
